@@ -121,7 +121,8 @@ class Game:
         pygame.draw.line(self.surface, (50, 50, 50), (x + w, y + h), [x + w, y], 5)
         pygame.draw.rect(self.surface, (100, 100, 100), (x, y, w, h))
         return self.surface.blit(text_render, (x, y))
-
+    
+    #after dying start new game
     def reset(self):
         boud = self.snake.boundaries
         speed = self.speed
@@ -182,6 +183,7 @@ class Game:
 
             time.sleep(self.speed)
 
+#number of pixels
 SIZE = 32
 class Snake:
     def __init__(self, parent_screen, length,apple):
@@ -196,9 +198,10 @@ class Snake:
         self.boundaries = False
         self.apple = apple
 
-
+    #place snake on screen
     def draw(self):
         self.parent_screen.fill((8, 196, 130))
+        #which picture to use
         if self.direction == 'left':
             self.snakeIMG[0] = pygame.image.load('brickhead_left.png')
         elif self.direction == 'right':
@@ -208,6 +211,7 @@ class Snake:
         else:
             self.snakeIMG[0] = pygame.image.load('brickhead_down.png')
 
+         #check legal bounderies 
         if not self.boundaries:
             if self.x[0] < 0:
                 self.x[0] = WIDTH
@@ -253,6 +257,7 @@ class Snake:
     def move_down(self):
         self.direction = 'down'
 
+     #move the snake
     def walk(self):
         for i in range(self.length-1, 0, -1):
             self.x[i] = self.x[i-1]
@@ -301,138 +306,6 @@ game = Game()
 game.run()
 
 
-# width = 800
-# height = 600
-# screen = pygame.display.set_mode((width, height))
-#
-# background = pygame.image.load('background.png')
-#
-#
-# #snake body
-# snake_body_X_change = []
-# snake_bod_y_change = []
-# snake_body_X = []
-# snake_body_img = []
-# snake_body_Y = []
-# snake_body_img.append(pygame.image.load('snakehead.png'))
-# snake_body_X.append(0)
-# snake_body_Y.append(0)
-#
-#
-#
-# #snakehead
-# snakeimg = pygame.image.load('snakehead.png')
-# snakeX = 20
-# snakeY = 20
-# snakeX_change = 0
-# snakeY_change = 0
-#
-# def snake(x, y):
-#     screen.blit(snakeimg, (x, y))
-#
-# #fruits
-# fruitX = []
-# fruitimg = []
-# fruitY = []
-# fruitimg.append(pygame.image.load('fruits.png'))
-# fruitX.append(random.randint(0, width - 32))
-# fruitY.append(random.randint(0, height - 32))
-#
-# def add_snake_piece(x,y):
-#     snakeimg.append(pygame.image.load('snakehead.png'))
-#     snakeX.append(x)
-#     snakeY.append(y)
-#
-# def snake(x, y):
-#     screen.blit(snakeimg, (x, y))
-#
-# def snake_body(i,x, y):
-#     screen.blit(snake_body_img[i], (x, y))
-#
-# def add_fruit():
-#     fruitimg.append(pygame.image.load('fruits.png'))
-#     fruitX.append(random.randint(0, width - 32))
-#     fruitY.append(random.randint(0, height - 32))
-#     global num_of_fruits
-#     num_of_fruits +=1
-#
-# def fruit(i,x,y):
-#     screen.blit(fruitimg[i],(x,y))
-#
-# width = 700
-# height = 600
-#
-# screen = pygame.display.set_mode((width,height))
-# clock = pygame.time.Clock()
-#
-# snake_length = 1
-# num_of_fruits = 1
-# going_left = False
-# going_right = False
-# going_up = False
-# going_down = False
-# summon_fruit = 0
-# while True:
-#     screen.blit(background, (0, 0))
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             sys.exit()
-#
-#         if event.type == pygame.KEYDOWN and not going_down and not going_up:
-#             if event.key == pygame.K_DOWN:
-#                 snakeY_change = 3
-#                 going_left = False
-#                 going_right = False
-#                 going_down = True
-#
-#         if event.type == pygame.KEYDOWN and not going_up and not going_down:
-#             if event.key == pygame.K_UP:
-#                 snakeY_change  = -3
-#                 going_left = False
-#                 going_right = False
-#                 going_up= True
-#
-#         if event.type == pygame.KEYDOWN and not going_right and not going_left:
-#             if event.key == pygame.K_LEFT:
-#                 snakeX_change = -3
-#                 going_left = True
-#                 going_up = False
-#                 going_down = False
-#         if event.type == pygame.KEYDOWN and not going_right and not going_left:
-#             if event.key == pygame.K_RIGHT:
-#                 snakeX_change = 3
-#                 going_right = True
-#                 going_up = False
-#                 going_down = False
-#
-#     for i in range(snake_length):
-#         snake_body_X[i] = snakeX +32
-#         snake_body_Y[i] = snakeY+32
-#         snake_body(i,snake_body_X[i],snake_body_Y[i])
-#
-#
-#     if going_left or going_right:
-#         snakeX = snakeX + snakeX_change
-#     elif going_up or going_down:
-#         snakeY = snakeY + snakeY_change
-#
-#
-#     for i in range(num_of_fruits):
-#         if abs(snakeX-fruitX[i]) <16 and abs(snakeY-fruitY[i]) < 16:
-#             fruitY[i] = height + 50
-#         fruit(i,fruitX[i],fruitY[i])
-#     snake(snakeX, snakeY)
-#     for i in range(snake_length):
-#         snake_body(i,snake_body_X[i],snake_body_Y[i])
-#
-#
-#
-#     pygame.display.update()
-#     summon_fruit += 1
-#     if summon_fruit%200 == 0:
-#         add_fruit()
-#     clock.tick(60)
 
 
 
